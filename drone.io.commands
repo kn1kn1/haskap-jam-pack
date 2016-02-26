@@ -1,0 +1,38 @@
+# install golang
+pushd ~/
+# cf. https://github.com/docker-library/golang/blob/master/1.6/Dockerfile
+export GOLANG_VERSION=1.6
+export GOLANG_DOWNLOAD_URL=https://golang.org/dl/go$GOLANG_VERSION.linux-amd64.tar.gz
+export GOLANG_DOWNLOAD_SHA256=5470eac05d273c74ff8bac7bef5bad0b5abbd1c4052efbdbc8db45332e836b0b
+
+curl -fsSL "$GOLANG_DOWNLOAD_URL" -o golang.tar.gz \
+	&& echo "$GOLANG_DOWNLOAD_SHA256  golang.tar.gz" | sha256sum -c - \
+	&& tar xzf golang.tar.gz \
+	&& rm golang.tar.gz
+
+export GOROOT=~/go
+export PATH=$GOROOT/bin:$PATH
+popd
+
+go version
+go env
+
+# build
+#BUILD_VERSION=`git describe --always --dirty`
+BUILD_VERSION=nightly
+echo BUILD_VERSION: $BUILD_VERSION
+BUILD_DATE=`date +%FT%T%z`
+echo BUILD_DATE: $BUILD_DATE
+GIT_COMMIT=`git describe --always`
+echo GIT_COMMIT: $GIT_COMMIT
+
+SRC_DIR=server/jam-server
+OUT_DIR=artifacts
+
+mkdir -p $OUT_DIR
+export GOOS=darwin;export GOARCH=amd64;go build -ldflags "-X main.BuildVersion=$BUILD_VERSION -X main.GitCommit=$GIT_COMMIT -X main.BuildDate=$BUILD_DATE" -o ${OUT_DIR}/${GOOS}_${GOARCH}/haskap-jam-server ${SRC_DIR}/haskap-jam-server.go
+export GOOS=windows;export GOARCH=amd64;go build -ldflags "-X main.BuildVersion=$BUILD_VERSION -X main.GitCommit=$GIT_COMMIT -X main.BuildDate=$BUILD_DATE" -o ${OUT_DIR}/${GOOS}_${GOARCH}/haskap-jam-server ${SRC_DIR}/haskap-jam-server.go
+export GOOS=windows;export GOARCH=386;go build -ldflags "-X main.BuildVersion=$BUILD_VERSION -X main.GitCommit=$GIT_COMMIT -X main.BuildDate=$BUILD_DATE" -o ${OUT_DIR}/${GOOS}_${GOARCH}/haskap-jam-server ${SRC_DIR}/haskap-jam-server.go
+export GOOS=linux;export GOARCH=amd64;go build -ldflags "-X main.BuildVersion=$BUILD_VERSION -X main.GitCommit=$GIT_COMMIT -X main.BuildDate=$BUILD_DATE" -o ${OUT_DIR}/${GOOS}_${GOARCH}/haskap-jam-server ${SRC_DIR}/haskap-jam-server.go
+export GOOS=linux;export GOARCH=386;go build -ldflags "-X main.BuildVersion=$BUILD_VERSION -X main.GitCommit=$GIT_COMMIT -X main.BuildDate=$BUILD_DATE" -o ${OUT_DIR}/${GOOS}_${GOARCH}/haskap-jam-server ${SRC_DIR}/haskap-jam-server.go
+export GOOS=linux;export GOARCH=arm;go build -ldflags "-X main.BuildVersion=$BUILD_VERSION -X main.GitCommit=$GIT_COMMIT -X main.BuildDate=$BUILD_DATE" -o ${OUT_DIR}/${GOOS}_${GOARCH}/haskap-jam-server ${SRC_DIR}/haskap-jam-server.go
