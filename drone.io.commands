@@ -1,3 +1,7 @@
+# install libcap-dev
+sudo apt-get update -y
+sudo apt-get install -y libpcap-dev
+
 # install golang
 pushd ~/
 # cf. https://github.com/docker-library/golang/blob/master/1.6/Dockerfile
@@ -26,6 +30,7 @@ echo BUILD_DATE: $BUILD_DATE
 GIT_COMMIT=`git describe --always`
 echo GIT_COMMIT: $GIT_COMMIT
 
+# jam-server
 SRC_DIR=server/jam-server
 OUT_DIR=artifacts
 
@@ -36,3 +41,11 @@ export GOOS=windows;export GOARCH=386;go build -ldflags "-X main.BuildVersion=$B
 export GOOS=linux;export GOARCH=amd64;go build -ldflags "-X main.BuildVersion=$BUILD_VERSION -X main.GitCommit=$GIT_COMMIT -X main.BuildDate=$BUILD_DATE" -o ${OUT_DIR}/${GOOS}_${GOARCH}/haskap-jam-server ${SRC_DIR}/haskap-jam-server.go
 export GOOS=linux;export GOARCH=386;go build -ldflags "-X main.BuildVersion=$BUILD_VERSION -X main.GitCommit=$GIT_COMMIT -X main.BuildDate=$BUILD_DATE" -o ${OUT_DIR}/${GOOS}_${GOARCH}/haskap-jam-server ${SRC_DIR}/haskap-jam-server.go
 export GOOS=linux;export GOARCH=arm;go build -ldflags "-X main.BuildVersion=$BUILD_VERSION -X main.GitCommit=$GIT_COMMIT -X main.BuildDate=$BUILD_DATE" -o ${OUT_DIR}/${GOOS}_${GOARCH}/haskap-jam-server ${SRC_DIR}/haskap-jam-server.go
+
+# log-interceptor
+SRC_DIR=server/log-interceptor
+OUT_DIR=artifacts
+
+export GOOS=linux;export GOARCH=amd64;go get github.com/google/gopacket;go build -ldflags "-X main.BuildVersion=$BUILD_VERSION -X main.GitCommit=$GIT_COMMIT -X main.BuildDate=$BUILD_DATE" -o ${OUT_DIR}/${GOOS}_${GOARCH}/haskap-jam-interceptor ${SRC_DIR}/haskap-jam-interceptor.go
+# cannot cross-compile pcap...
+#  https://stackoverflow.com/questions/31648793/go-programming-cross-compile-for-revel-framework
