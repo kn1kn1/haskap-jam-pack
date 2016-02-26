@@ -37,7 +37,9 @@ OUT_DIR=artifacts
 mkdir -p $OUT_DIR
 export GOOS=darwin;export GOARCH=amd64;go build -ldflags "-X main.BuildVersion=$BUILD_VERSION -X main.GitCommit=$GIT_COMMIT -X main.BuildDate=$BUILD_DATE" -o ${OUT_DIR}/${GOOS}_${GOARCH}/haskap-jam-server ${SRC_DIR}/haskap-jam-server.go
 export GOOS=windows;export GOARCH=amd64;go build -ldflags "-X main.BuildVersion=$BUILD_VERSION -X main.GitCommit=$GIT_COMMIT -X main.BuildDate=$BUILD_DATE" -o ${OUT_DIR}/${GOOS}_${GOARCH}/haskap-jam-server ${SRC_DIR}/haskap-jam-server.go
-export GOOS=windows;export GOARCH=386;go build -ldflags "-X main.BuildVersion=$BUILD_VERSION -X main.GitCommit=$GIT_COMMIT -X main.BuildDate=$BUILD_DATE" -o ${OUT_DIR}/${GOOS}_${GOARCH}/haskap-jam-server ${SRC_DIR}/haskap-jam-server.go
+# remove for exceeded max number of archives
+#  Warning: Could not archive /home/ubuntu/src/github.com/kn1kn1/haskap-jam-pack/artifacts/linux_amd64/haskap-jam-interceptor, exceeded max number of archives
+#export GOOS=windows;export GOARCH=386;go build -ldflags "-X main.BuildVersion=$BUILD_VERSION -X main.GitCommit=$GIT_COMMIT -X main.BuildDate=$BUILD_DATE" -o ${OUT_DIR}/${GOOS}_${GOARCH}/haskap-jam-server ${SRC_DIR}/haskap-jam-server.go
 export GOOS=linux;export GOARCH=amd64;go build -ldflags "-X main.BuildVersion=$BUILD_VERSION -X main.GitCommit=$GIT_COMMIT -X main.BuildDate=$BUILD_DATE" -o ${OUT_DIR}/${GOOS}_${GOARCH}/haskap-jam-server ${SRC_DIR}/haskap-jam-server.go
 export GOOS=linux;export GOARCH=386;go build -ldflags "-X main.BuildVersion=$BUILD_VERSION -X main.GitCommit=$GIT_COMMIT -X main.BuildDate=$BUILD_DATE" -o ${OUT_DIR}/${GOOS}_${GOARCH}/haskap-jam-server ${SRC_DIR}/haskap-jam-server.go
 export GOOS=linux;export GOARCH=arm;go build -ldflags "-X main.BuildVersion=$BUILD_VERSION -X main.GitCommit=$GIT_COMMIT -X main.BuildDate=$BUILD_DATE" -o ${OUT_DIR}/${GOOS}_${GOARCH}/haskap-jam-server ${SRC_DIR}/haskap-jam-server.go
