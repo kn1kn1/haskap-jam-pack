@@ -1,3 +1,12 @@
+# The shell script configured in drone.io's Settings -> Build & Test -> Commands
+# This settings will archive following binaries. (configured in Settings -> Artifacts)
+# artifacts/darwin_amd64/haskap-jam-server
+# artifacts/linux_386/haskap-jam-server
+# artifacts/linux_amd64/haskap-jam-server
+# artifacts/linux_arm/haskap-jam-server
+# artifacts/windows_amd64/haskap-jam-server
+# artifacts/linux_amd64/haskap-jam-interceptor
+
 # install libcap-dev
 sudo apt-get update -y
 sudo apt-get install -y libpcap-dev
